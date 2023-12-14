@@ -1,0 +1,10 @@
+footer {
+   /*  position: absolute;
+    bottom: 0px; */
+ /*    width: 100vw; */ /* because absolute forces to take the min width */
+    background-color: var(--navbar-footer-color);
+}
+
+.site-logo {
+    font-size: 1.2em;
+}

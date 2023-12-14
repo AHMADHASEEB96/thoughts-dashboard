@@ -1,0 +1,75 @@
+<!-- Create the category -->
+
+<section>
+    <div class="container">
+        <div class="text-center">
+            <h3> Create a new Category </h3>
+            <p> You can Manage creating the categories using this form </p>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+                <form class="form-inline row" #categoriesForm="ngForm" ngForm
+                    (ngSubmit)="submitCategoriesForm($event, categoriesForm, categoryInput)">
+                    <div class="form-group col-md-9">
+                        <input type="text" class="form-control" name="categoryText" ngModel #categoryInput="ngModel"
+                            placeholder="Add a new category" (blur)="blurInput(categoryInput)" required
+                            [class.is-invalid]="categoryInput.invalid && categoryInput.touched">
+                        <!--  (keyup.enter)="categoryEntered($event, categoriesForm, categoryInput)" -->
+                    </div>
+                    <div class="form-group col-md-3">
+                        <button type="submit" class="btn-theme w-100" [disabled]="categoriesForm.invalid">Add
+                            Category</button>
+                    </div>
+                </form>
+
+
+                <div class="form-validation-errors alert alert-danger my-2"
+                    *ngIf="categoriesForm.touched && categoriesForm.invalid ">
+                    <div class=" my-1" *ngIf="categoryInput.invalid && categoryInput.touched"> Categories
+                        input
+                        is not valid yet </div>
+                    <div class=" my-1" *ngIf="categoriesForm.invalid && categoriesForm.submitted"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="row justify-content-center">
+            <!-- another approach to center the table is to add two dov.col-3 after and before it   -->
+            <div class="col-12"> <!-- couldn't apply the col-8 to the table directly so created a holder div -->
+                <!-- table the categories  -->
+                <table class="table box-shadow  my-3 text-end">
+                    <thead>
+                        <tr class="table-dark">
+                            <th>#</th>
+                            <th>Category</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- For each category create a table rwo -->
+                        <tr *ngFor="let category of categoriesArray; let i = index">
+                            <td>{{categoriesArray.indexOf(category) + 1}}</td> <!-- or just use {{ i + 1}} -->
+                            <td>{{category.data.category}}</td>
+                            <td> <button class="btn btn-sm btn-info mx-1">Update</button> <button
+                                    class="btn btn-sm btn-danger mx-1">Remove</button> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+<!-- col-9, col-3 takes the whole row's width, any gap wraps the second col, gap here used to put a vertical separation on wrapping -->
+<!--  #categoryInput refers to the HTMLIputElement itself white #categoryInput = "ngModel" refers to the ngModel -->
+<!-- While using ngModel directive on the input is necessary to link the input with the ngModel directive, using ngForm directive on the form Explicitly is not necessary because 
+it is injected implicitly by the Angular CLI because  Any form element has no [ngNoForm] or [formGroup] attributes takes the directive [ngForm] implicitly  -->
+<!-- [class.is-invalid]="categoryInput.invalid && categoryInput.touched">
+ * multiple class binding 
+ [ngClass] = "{className : condition, className: condition }"
+ -->

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "thoughts-posts-blog": {
+      "hosting": {
+        "thoughts-dashboard": [
+          "thoughts-posts-blog"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "thoughts-posts-blog"
+  }
+}

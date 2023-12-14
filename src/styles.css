@@ -1,1 +1,136 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@800;900;1000&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+/* Import the toastr */
+
+@import 'ngx-toastr/toastr'; /* The imports starts from ng-modules directly without having to navigate the folder at the beginning  */
+
+
+:root {
+--primary-color :black;
+--secondary-color :#E5F5EA;
+--body-text-color : black;
+--navbar-footer-color :#f9f9f9;
+}
+
+body {
+ font-family: 'Roboto', sans-serif;
+  font-family: 'Cairo', sans-serif !important; /* To override the bootstrap body font family */
+  font-size:  12px !important; 
+  color: var(--body-text-color) !important;
+ 
+}
+a {
+    cursor: pointer;
+    text-decoration: none !important ; /* override the bootstrap's underline */
+}
+
+.bg-theme {
+    background-color: var(--primary-color);
+}
+.secondary-bg-theme {
+    background-color: var(--secondary-color);
+}
+.btn-theme,
+.secondary-btn-theme {
+    border: none;
+    height: 50px ;
+    font-size: 12px;
+    padding: 0 20px;
+    background-color: var(--primary-color);
+    color: white;
+    transition: 0.5s ;
+    -webkit-transition: 0.5s ;
+    -moz-transition: 0.5s ;
+    -ms-transition: 0.5s ;
+    -o-transition: 0.5s ;
+}
+.secondary-btn-theme {
+      background-color: var(--secondary-color);
+      color: black;
+
+}
+
+.btn-theme:hover, .secondary-btn-theme:hover {
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+.site-logo {
+    padding: 5px 20px;
+    border-radius: 10px ;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    -webkit-border-radius: 10px ;
+    -moz-border-radius: 10px ;
+    -ms-border-radius: 10px ;
+    -o-border-radius: 10px ;
+    font-size: 1.5em;
+}
+
+section {
+    margin: 50px 0;
+     padding: 50px 0;
+}
+.nav-link {
+  
+    color: var(--primary-color);
+}
+header, nav {
+    z-index: 10;
+}
+
+.application-body {
+    min-height: 50vh;
+}
+
+
+.box-shadow {
+    border : none;
+      box-shadow: 0 0 33px -10px rgba(71, 114, 254, 0.3);
+}
+
+.card {
+    border :none !important;
+     
+}
+
+form .form-control {
+    height: 50px !important;
+    border: none;
+    /* Override the bootstrap styling for the form-control */
+    border-radius:unset !important;
+    -webkit-border-radius:unset !important;
+    -moz-border-radius:unset !important;
+    -ms-border-radius:unset !important;
+    -o-border-radius:unset !important;
+}
+/* Override the bootstrap focus styling for the form-control */
+form .form-control:focus {
+    border: 1px solid white !important;
+    background-color: var(--primary-color) !important;
+
+}
+form input, form textarea {
+    border: none;
+    box-shadow: 0 0 33px -10px rgba(71, 141, 254, 0.3);
+}
+
+.category-card {
+    cursor: pointer;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+}
+.category-card:hover {
+    background-color: var(--primary-color);
+    color: white !important;
+}
+
+input[type = text] {
+background-color: var(--primary-color);
+color: white !important;
+}

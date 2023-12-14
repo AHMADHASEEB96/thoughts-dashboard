@@ -35,7 +35,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": []
           },
@@ -98,6 +99,23 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "thoughts-dashboard:build:production",
+              "serveTarget": "thoughts-dashboard:serve:production"
+            },
+            "development": {
+              "buildTarget": "thoughts-dashboard:build:development",
+              "serveTarget": "thoughts-dashboard:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
