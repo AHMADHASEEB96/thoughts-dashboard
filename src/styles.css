@@ -9,6 +9,7 @@
 --primary-color :black;
 --secondary-color :#E5F5EA;
 --body-text-color : black;
+--secondary-text-color : white;
 --navbar-footer-color :#f9f9f9;
 }
 
@@ -23,7 +24,17 @@ a {
     cursor: pointer;
     text-decoration: none !important ; /* override the bootstrap's underline */
 }
+/* center the table cells vertically  */
+td {
+    vertical-align: middle;
+}
 
+@media (min-width : 991px) {
+.container-lg-boxed {
+    width: 50% !important;
+    margin: 0 auto;
+}
+}
 .bg-theme {
     background-color: var(--primary-color);
 }
@@ -60,8 +71,8 @@ a {
 .site-logo {
     padding: 5px 20px;
     border-radius: 10px ;
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
+    background-color: var(--primary-color);
+    color: var(--secondary-text-color);
     -webkit-border-radius: 10px ;
     -moz-border-radius: 10px ;
     -ms-border-radius: 10px ;
@@ -96,9 +107,9 @@ header, nav {
      
 }
 
-form .form-control {
-    height: 50px !important;
+ .form-control {
     border: none;
+    border : 1px solid #eee;
     /* Override the bootstrap styling for the form-control */
     border-radius:unset !important;
     -webkit-border-radius:unset !important;
@@ -106,15 +117,28 @@ form .form-control {
     -ms-border-radius:unset !important;
     -o-border-radius:unset !important;
 }
+.form-control:not(textarea, input[type = file]) {
+    height: 50px !important;
+}
+
 /* Override the bootstrap focus styling for the form-control */
-form .form-control:focus {
+ .form-control:focus {
     border: 1px solid white !important;
     background-color: var(--primary-color) !important;
+    color: white !important;
 
 }
 form input, form textarea {
     border: none;
-    box-shadow: 0 0 33px -10px rgba(71, 141, 254, 0.3);
+    /* box-shadow: 0 0 33px -10px rgba(71, 141, 254, 0.3); */
+}
+
+input[type = text] {
+background-color: var(--primary-color);
+color: white !important;
+}
+input[type = text]::placeholder {
+    color: #777;
 }
 
 .category-card {
@@ -130,7 +154,8 @@ form input, form textarea {
     color: white !important;
 }
 
-input[type = text] {
-background-color: var(--primary-color);
-color: white !important;
+
+/* Change the toaster to fixed */
+#toast-container {
+    position: fixed;
 }

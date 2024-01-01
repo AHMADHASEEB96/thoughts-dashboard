@@ -6,13 +6,17 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './layouts/header/header.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+// Reactive forms 
+import { ReactiveFormsModule } from '@angular/forms';
 // Import the firebase related components
-import {AngularFireModule} from '@angular/fire/compat'; // do not forget that the AngularFireModule class is now starting form AngularFire v6 inside the compat folder and not the fire
+import { AngularFireModule } from '@angular/fire/compat'; // do not forget that the AngularFireModule class is now starting form AngularFire v6 inside the compat folder and not the fire folder
+// for firebase storage 
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 //import the environment object 
 import { environment } from '../environments/environment';
-// import the angular fire store to deal with firestore database
+// import the angular firestore to deal with firestore database
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import {AngularFirestoreModule} from '@angular/fire/compat/firestore'
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore'
 // Dynamically generated imports
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -34,13 +38,21 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 //
+import { AllPostsComponent } from './posts/all-posts/all-posts.component';
+import { NewPostComponent } from './posts/new-post/new-post.component';
+//Kolkov editor 
+import { HttpClientModule } from '@angular/common/http';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+//
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
     DashboardComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    AllPostsComponent,
+    NewPostComponent
   ],
   imports: [
     BrowserModule,
@@ -48,12 +60,14 @@ import { ToastrModule } from 'ngx-toastr';
     // initialize the angular fire app using the api configuration code that you received when registered the app on the firebase website
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    
+    AngularFireStorageModule,
+    ReactiveFormsModule,
+
     // all of the comign code is imported directly by sitting up the @angular/fire library with the whole set of firebase features or services
-    provideFirebaseApp(() => initializeApp({"projectId":"thoughts-posts-blog","appId":"1:1026322748067:web:5777813b5b05c692e66516","storageBucket":"thoughts-posts-blog.appspot.com","apiKey":"AIzaSyA4QQpGjIi8-3VHjPD0BDObKWh5b4BV2eg","authDomain":"thoughts-posts-blog.firebaseapp.com","messagingSenderId":"1026322748067","measurementId":"G-MNC386RX87"})),
+    provideFirebaseApp(() => initializeApp({ "projectId": "thoughts-posts-blog", "appId": "1:1026322748067:web:5777813b5b05c692e66516", "storageBucket": "thoughts-posts-blog.appspot.com", "apiKey": "AIzaSyA4QQpGjIi8-3VHjPD0BDObKWh5b4BV2eg", "authDomain": "thoughts-posts-blog.firebaseapp.com", "messagingSenderId": "1026322748067", "measurementId": "G-MNC386RX87" })),
     provideAuth(() => getAuth()),
     provideAnalytics(() => getAnalytics()),
-   
+
     provideFirestore(() => getFirestore()),
     provideDatabase(() => getDatabase()),
     provideFunctions(() => getFunctions()),
@@ -62,12 +76,14 @@ import { ToastrModule } from 'ngx-toastr';
     provideStorage(() => getStorage()),
     provideRemoteConfig(() => getRemoteConfig()),
 
-  FormsModule, 
-  // toastr
-  CommonModule,
-BrowserAnimationsModule,
- ToastrModule.forRoot(), // now go and inject the toastrService in the component you want to use it there
- ],
+    FormsModule,
+    // toastr
+    CommonModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(), // now go and inject the toastrService in the component you want to use it there
+    //Kolkov editor 
+    HttpClientModule, AngularEditorModule
+  ],
   providers: [
     ScreenTrackingService,
     UserTrackingService

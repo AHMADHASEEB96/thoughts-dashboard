@@ -2,7 +2,8 @@ footer {
    /*  position: absolute;
     bottom: 0px; */
  /*    width: 100vw; */ /* because absolute forces to take the min width */
-    background-color: var(--navbar-footer-color);
+    background-color: var(--primary-color);
+    color: var(--secondary-text-color);
 }
 
 .site-logo {

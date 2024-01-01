@@ -1,0 +1,165 @@
+<section>
+    <div class="container">
+        <div class="new-post-header text-center">
+            <h3 class='my-3'>
+                Add new post
+            </h3>
+
+        </div>
+        <form class="box-shadow p-4" [formGroup]="postForm" (ngSubmit)="submitPostFrom()">
+            <div class="row">
+                <div class="col-lg-7">
+
+                    <!--  -->
+                    <div class="form-group mb-2">
+                        <div class="form-label"> Title </div>
+                        <input class="form-control" formControlName='postTitle' (input)="onTitleInput($event)"
+                            [class.is-invalid]="formControls['postTitle'].invalid && formControls['postTitle'].touched">
+                        <!-- post title validation division -->
+                        <div class="alert alert-danger my-2"
+                            *ngIf="formControls['postTitle'].invalid && formControls['postTitle'].touched">
+                            <div class="py-1"
+                                *ngIf="formControls['postTitle'].errors?.['required'] && formControls['postTitle'].touched">
+                                The Title is required
+                            </div>
+                            <div
+                                *ngIf="formControls['postTitle'].touched && formControls['postTitle'].errors?.['minlength']">
+                                a minium Length of {{formControls['postTitle'].errors?.['minlength'].requiredLength}}
+                                characters is required you only used
+                                {{formControls['postTitle'].errors?.['minlength'].actualLength}}
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+
+                    <div class="form-group mb-2">
+                        <div class="form-label"> PermaLink</div>
+
+                        <input class="form-control" [value]='dashedTitle' disabled>
+                        <input class="form-control d-none" formControlName='postPermalink' [(ngModel)]='dashedTitle'>
+
+                    </div>
+                    <!-- Excerpts -->
+                    <div class="form-group mb-2">
+                        <div class="form-label"> Excerpt</div>
+                        <textarea cols="30" rows="10" formControlName='postExcerpt' class="form-control"
+                            [ngClass]="{'is-invalid': formControls['postExcerpt'].invalid && formControls['postExcerpt'].touched}"> </textarea>
+                        <!-- post Excerpts validation division -->
+                        <div class="alert alert-danger my-2"
+                            *ngIf="formControls['postExcerpt'].invalid && formControls['postExcerpt'].touched">
+                            <div class="my-1"
+                                *ngIf="formControls['postExcerpt'].errors?.['required'] && formControls['postExcerpt'].touched">
+                                This field is required
+                            </div>
+                            <div class=""
+                                *ngIf="formControls['postExcerpt'].errors?.['minlength'] && formControls['postExcerpt'].touched">
+
+                                a minium Length of {{formControls['postExcerpt'].errors?.['minlength'].requiredLength}}
+                                characters is required you only used
+                                {{formControls['postExcerpt'].errors?.['minlength'].actualLength}}
+                            </div>
+                        </div>
+                        <!--  -->
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label"> Post Category</label>
+                        <select name="" id="" formControlName='postCategory' class="form-control"
+                            [ngClass]="{'is-invalid' : formControls['postCategory'].invalid && formControls['postCategory'].touched}"
+                            (change)="getOptionData($event)"> <!-- !1 -->
+                            <option *ngFor="let category of categoriesList" [value]="category.id">
+                                {{category.data.category}}</option>
+                        </select>
+                        <!-- post Category validation division -->
+                        <div class="alert alert-danger my-2"
+                            *ngIf="formControls['postCategory'].invalid && formControls['postCategory'].touched">
+                            <div class="my-1"
+                                *ngIf="formControls['postCategory'].touched && formControls['postCategory'].errors?.['required']">
+                                You need to choose a post category
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="form-label"> Post Image</label>
+                        <input type="file" name="" id="" formControlName='postImage'
+                            class='form-control my-2 text-center p-auto' accept='image/*'
+                            (change)='getPostImage($event)'
+                            [ngClass]="{'is-invalid' : formControls['postImage'].invalid && formControls['postImage'].touched}">
+                        <div class="alert alert-danger my-2"
+                            *ngIf="formControls['postImage'].invalid && formControls['postImage'].touched">
+                            The post image is required
+                        </div>
+                        <img [src]="postImageSrc" alt="Post's image" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-12 my-3">
+                    <div class="form-label"> Content</div>
+                    <angular-editor [placeholder]="'Enter text here...'" formControlName='postContent'></angular-editor>
+                    <div class="alert alert-danger my-2"
+                        *ngIf="formControls['postContent'].invalid && formControls['postContent'].touched">
+                        The post Content is required
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <button class="btn btn-primary m-1" type="submit" [disabled]="postForm.invalid"> Save Post </button>
+                    <button class="btn btn-warning m-1"> Back to posts </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</section>
+
+
+<!-- 
+    - formControlName like other directives is a camalCase name, any error of that kine will prevent the linking between the input and the formControl instance this will make 
+    all the validations not working because we are getting the values from this instance depending on the input condition or status
+    - some of the validators are found inside the errors object like required , minLength and there are some found directly inside the control object and those are known like valid, invalid, touched ....
+
+    * the logic behind the reactive forms validation,
+    inside the class we created an instance of formGroup class and assigned it to a variable like postForm in our case, then we created many instances inside this postForm instance each one refers to an instance 
+    of form control, each one is assigned to a variable that variable is used with the directive formControlName and this way for each input we created an instance of the formControl class with all 
+    the properties inside it, Know with that being done (using formGroup and formControlName directives) the form and the input will respond to any changes and refresh the objects or instances those were created and 
+    attached to those controls and form. this way the component will respond to any change occurs to the form or the formGroups or the controls and then the ngIf directive will respond directly and shows or hides
+    the validation divisions, and this is the greatness of Angular or SPA frameworks  the immediate respond,
+
+ -->
+
+
+<!-- 
+not using the bracket notation might causes an error in these validation processes,
+    <div *ngIf="formControls.postTitle.touched && formControls.postTitle.errors.minlength"> // error => Property 'minlength' comes from an index signature, so it must be accessed with ['minlength']
+    In TypeScript, an index signature is a way to define the types for keys and values in an object.
+    interface Salary {
+  [key: string]: number;
+}
+you can adjust this from the typescript configuration I think, But for more cleaner code you need to just leave it as it is and adjust your code instead to much these strict rules.
+- in bracket notation we don't use the dot sign but we used it here errors?.['minlength']" for the optional chaining
+  -->
+
+<!-- 
+    class binding 
+      <angular-editor [placeholder]="'Enter text here...'" formControlName='postContent'
+                        [ngClass]="{'is-invalid' : formControls['postContent'].invalid && formControls['postContent'].touched}"></angular-editor>
+                        wont work with this custom element 
+   -->
+
+<!-- 
+
+                        <input class="form-control" formControlName='postPermalink' [value]='dashedTitle' disabled> error, cant use the attribute disabled with the value attribute when the value
+                        attribute is expecting string like in case of dashedTitle, this is in case the formControlName is used, but if not it is ok to use the it like above
+
+    -->
+<!-- 
+        in the permalink div, the disabled input or control is not included in the form value object, So I have worked around it by showing a disabled input to the user but used an enabled but hidden on 
+        to handle sending the data to the form
+     -->
+
+<!-- 
+        !1
+        we can send the value and text of the options by sending the event object itself and parsing these data , or by storing the the already got values from the categories
+        array in the value attribute this way value = "{{category.id}-{{category.data.category}}}" and then split the string from the - sign and get each value separately
+      -->

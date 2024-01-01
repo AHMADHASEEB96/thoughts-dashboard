@@ -1,10 +1,10 @@
 <!-- Create the category -->
 
 <section>
-    <div class="container">
+    <div class="container-fluid container-lg-boxed">
         <div class="text-center">
-            <h3> Create a new Category </h3>
-            <p> You can Manage creating the categories using this form </p>
+            <h3> Handle Categories </h3>
+            <p> You can Manage creating, Updating and Deleting the categories using this form </p>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -13,13 +13,16 @@
                     (ngSubmit)="submitCategoriesForm($event, categoriesForm, categoryInput)">
                     <div class="form-group col-md-9">
                         <input type="text" class="form-control" name="categoryText" ngModel #categoryInput="ngModel"
-                            placeholder="Add a new category" (blur)="blurInput(categoryInput)" required
-                            [class.is-invalid]="categoryInput.invalid && categoryInput.touched">
+                            placeholder="Add a new category" required
+                            [class.is-invalid]="categoryInput.invalid && categoryInput.touched"
+                            [(ngModel)]="categoryControlValue">
+                        <!-- !1 -->
                         <!--  (keyup.enter)="categoryEntered($event, categoriesForm, categoryInput)" -->
                     </div>
                     <div class="form-group col-md-3">
-                        <button type="submit" class="btn-theme w-100" [disabled]="categoriesForm.invalid">Add
-                            Category</button>
+                        <button type="submit" class="btn-theme w-100" [disabled]="categoriesForm.invalid">
+                            {{formStatus}}
+                            a Category</button>
                     </div>
                 </form>
 
@@ -38,9 +41,9 @@
         </div>
         <div class="row justify-content-center">
             <!-- another approach to center the table is to add two dov.col-3 after and before it   -->
-            <div class="col-12"> <!-- couldn't apply the col-8 to the table directly so created a holder div -->
+            <div class="col-10"> <!-- couldn't apply the col-8 to the table directly so created a holder div -->
                 <!-- table the categories  -->
-                <table class="table box-shadow  my-3 text-end">
+                <table class="table box-shadow  my-3 text-center">
                     <thead>
                         <tr class="table-dark">
                             <th>#</th>
@@ -53,8 +56,10 @@
                         <tr *ngFor="let category of categoriesArray; let i = index">
                             <td>{{categoriesArray.indexOf(category) + 1}}</td> <!-- or just use {{ i + 1}} -->
                             <td>{{category.data.category}}</td>
-                            <td> <button class="btn btn-sm btn-info mx-1">Update</button> <button
-                                    class="btn btn-sm btn-danger mx-1">Remove</button> </td>
+                            <td> <button class="btn btn-sm btn-info m-1"
+                                    (click)="updateCategory(category.data.category, category.id)">
+                                    Update</button> <button class="btn btn-sm btn-danger m-1"
+                                    (click)="deleteCategory(category.id)">Remove</button> </td>
                         </tr>
                     </tbody>
                 </table>
@@ -73,3 +78,7 @@ it is injected implicitly by the Angular CLI because  Any form element has no [n
  * multiple class binding 
  [ngClass] = "{className : condition, className: condition }"
  -->
+
+<!-- !1
+this way the input will take the value of the variable categoryControl and also will assign this variable it's value on changing
+-->

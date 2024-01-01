@@ -8,26 +8,35 @@ import { map } from 'rxjs';
   providedIn: 'root'
 })
 export class CategoriesService {
-//create the service as a field 
-  constructor( private afs : AngularFirestore, ) { }
+  //create the service as a field 
+  constructor(private afs: AngularFirestore,) { }
   // Store categories to the firestore cloud database
-  storeCategory(categoriesData : any) { 
+  storeCategory(categoriesData: any) {
     // Now create the firestore database collection (and give it a name) using AngularFireStore service and add a document including the created data to be stored
-    return this.afs.collection('categories').add(categoriesData.categoryData) 
+    return this.afs.collection('categories').add(categoriesData.categoryData)
   }
- getData() {
-  return this.afs.collection('categories').snapshotChanges().pipe(
-    map(actions => { // it is a convention to name this param 'actions'
-      return actions.map(action => {
-        const data = action.payload.doc.data();
-        const id = action.payload.doc.id;
-        return { id, data };
-      });
-    })
-  );
-} // ![1]
-// With any changes ocurred in the firestore database, the snapshotChanges method will see it directly and get it , this real time data loading or syncing is a great feature
-// then the component is reinitialized to store the new data directly to the table, now u don't have to write any code to read that data from the database on the change. //![2] 
+  //
+  getData() {
+    return this.afs.collection('categories').snapshotChanges().pipe(
+      map(actions => { // it is a convention to name this param 'actions'// here it is an array of observables (documents)
+        return actions.map(action => {
+          const data = action.payload.doc.data();
+          const id = action.payload.doc.id;
+          return { id, data };
+        });
+      })
+    );
+  } // ![1]
+  // With any changes ocurred in the firestore database, the snapshotChanges method will see it directly and get it , this real time data loading or syncing is a great feature
+  // then the component is reinitialized to store the new data directly to the table, now u don't have to write any code to read that data from the database on the change. //![2] 
+  updateData(categoryData: any, id: string) {
+    return this.afs.doc('categories/' + id).update(categoryData)
+  }
+
+  deleteData(id: string) {
+    return this.afs.doc(`categories/${id}`).delete()
+  }
+
 }
 
 
