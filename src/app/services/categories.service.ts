@@ -7,6 +7,7 @@ import { map } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class CategoriesService {
   //create the service as a field 
   constructor(private afs: AngularFirestore,) { }

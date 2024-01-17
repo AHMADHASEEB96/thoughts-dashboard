@@ -53,7 +53,7 @@ export class CategoriesComponent implements OnInit {
       subCategory: categoriesForm.value.categoryText // here we are targeting the same input's value but we better create a separate input field inside the form to store the subcategory
     }
 
-    // No send these documents objects to the service to be handled there, for that create an object to hold so we can send only one argument not many
+    // Now send these documents objects to the service to be handled there, for that create an object to hold the two objects so we can send only one argument not many
     let categoryObjects = {
       categoryData,
       subCategoryData

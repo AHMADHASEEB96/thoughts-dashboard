@@ -2,7 +2,7 @@
     <div class="container">
         <div class="new-post-header text-center">
             <h3 class='my-3'>
-                Add new post
+                {{postFromStatus}} post
             </h3>
 
         </div>
@@ -64,12 +64,13 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group mb-3">
-                        <label for="" class="form-label"> Post Category</label>
+                        <label for="" class="form-label"> Post Category </label>
                         <select name="" id="" formControlName='postCategory' class="form-control"
                             [ngClass]="{'is-invalid' : formControls['postCategory'].invalid && formControls['postCategory'].touched}"
                             (change)="getOptionData($event)"> <!-- !1 -->
+                            <option value="Choose a Category" selected></option>
                             <option *ngFor="let category of categoriesList" [value]="category.id">
-                                {{category.data.category}}</option>
+                                {{category.data.category}} </option>
                         </select>
                         <!-- post Category validation division -->
                         <div class="alert alert-danger my-2"
@@ -104,15 +105,15 @@
                     </div>
                 </div>
                 <div class="col-12 text-center">
-                    <button class="btn btn-primary m-1" type="submit" [disabled]="postForm.invalid"> Save Post </button>
-                    <button class="btn btn-warning m-1"> Back to posts </button>
+                    <button class="btn btn-primary m-1" type="submit" [disabled]="postForm.invalid"> {{postFromStatus}}
+                        Post </button>
+                    <button class="btn btn-warning m-1" routerLink="/posts"> Back to posts </button>
                 </div>
             </div>
         </form>
 
     </div>
 </section>
-
 
 <!-- 
     - formControlName like other directives is a camalCase name, any error of that kine will prevent the linking between the input and the formControl instance this will make 

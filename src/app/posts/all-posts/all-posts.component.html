@@ -1,4 +1,4 @@
-<section>
+<section class="all-posts-header">
     <div class="container">
         <div class="posts-header text-center">
             <h3> All Posts </h3>
@@ -10,3 +10,57 @@
         </div>
     </div>
 </section>
+
+<section class="all-posts-table">
+    <div class="container">
+        <table class="table ">
+            <thead class="table-dark">
+                <tr>
+                    <th> # </th>
+                    <th> Image </th>
+                    <th> Title </th>
+                    <th> Category </th>
+                    <th> Excerpts </th>
+                    <th> Date </th>
+
+                    <th> Action </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let post of posts; let i = index">
+                    <td> {{i + 1 }}</td>
+                    <td> <img src="{{post.postData.postImageURL}}" alt="Post Image" class="img img-fluid rounded">
+                    </td>
+                    <td> {{post.postData.postTitle}} </td>
+                    <td> {{post.postData.postCategory.category}} </td>
+                    <td> {{post.postData.postExcerpt}} </td>
+                    <td> {{post.postData.createdAt.toMillis() | date}} </td> <!-- !1 -->
+
+                    <td>
+                        <div class="d-flex gap-2">
+
+                            <button class="post-action-button btn btn-warning" routerLink="/posts/new"
+                                [queryParams]="{id: post.postId}">
+                                Edit </button>
+                            <button class="post-action-button btn btn-danger">
+                                Delete </button>
+                        </div>
+                        <!-- !2 -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- !1
+used the pope date after converting the timestamp to milliseconds using a js method, this is in case we send the date like this new Date() on creating the post object
+but if we are sending the date formatted not like a timestamp then there is no need to use the pipe
+-->
+
+<!-- !2
+to edit this post we first need to navigate and send the post data to the new post component, but to send share data between components there need to be a relationship
+between them like parent and child, in this case there is not so we will send the id and then get the data of the corresponding post from the database for that 
+we will be using query params binding which takes an object of the parameters names and their values
+-->
