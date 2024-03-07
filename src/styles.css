@@ -24,11 +24,16 @@ a {
     cursor: pointer;
     text-decoration: none !important ; /* override the bootstrap's underline */
 }
+li {
+    list-style: none;
+}
 /* center the table cells vertically  */
 td {
     vertical-align: middle;
 }
-
+.clickable {
+    cursor: pointer;
+}
 @media (min-width : 991px) {
 .container-lg-boxed {
     width: 50% !important;

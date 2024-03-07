@@ -17,30 +17,31 @@ export class CategoriesComponent implements OnInit {
   // Create the array of type category which is an interface that represents an object of two properties id, data.
   categoriesArray: category[]; // I have created an interface for this array for more strict type checking to make it accept only objects of two properties id, data
   categoryControlValue: string; // for two-way binding
-
-
   categoryId: string;
   // Declare a variable to determine the form status 
   formStatus: string = "Add"
+  isCategoriesInputBlurred: boolean;
   constructor(private categorySer: CategoriesService, private toastr: ToastrService) { }
   ngOnInit(): void {
 
-    this.categorySer.getData().subscribe((res: category[]) => {
-      console.log(res);
-      // store the returned data into an array 
-      this.categoriesArray = res;
-
+    this.categorySer.getData().subscribe({
+      next: (res: category[]) => {
+        console.log(res);
+        // store the returned data into an array 
+        this.categoriesArray = res;
+      },
+      error: () => { },
+      complete: () => { }
     })
-    /* This code subscribes to the observable returned by getData() and logs the array of categories when the data changes in the 'categories' collection. */
+    /* This code subscribes to the observable returned by getData() and logs the array of categories when the data changes in the 'categories' collection. 
+    the observables observe the data change without having to load the page
+    */
+
   }
 
   submitCategoriesForm(e: Event, categoriesForm: any, categoryInput: any): void {
     e.preventDefault()
-
     // Display the value object inside the form that holds the values of all the inputs 
-
-
-
     /*Working with firestore database requires a key value pair data because firestore saves the data as a collection of documents each one is a group
     of key-value pair fields , So create an object with the data to send it */
     let categoryData = { // this object represents a document inside the database collection
@@ -62,16 +63,12 @@ export class CategoriesComponent implements OnInit {
     // now pass the object to the desired method inside the service, the service returns a promise, handle it
     if (this.formStatus == 'Add') {
       this.categorySer.storeCategory(categoryObjects).then(documentRef => {
-
-
-
         // show the success message using the toastr
         this.toastr.success(` category stored successfully`)
       }).catch(error => this.toastr.error(error))
       // this code this.afs.collection('categories').add(categoryData) is like a post request sent to add a document to the collection 'categories' in the firestore database
       // then this request returns a promise that we can use then on it to fetch the response
     } else if (this.formStatus == 'Update') {
-
       this.categorySer.updateData(categoryData, this.categoryId).then(docRef => { // to update a category send an object ( of document fields ) not a only a category name; 
         this.toastr.success("Category updated successfully.")
         // Reset the form status
@@ -79,8 +76,6 @@ export class CategoriesComponent implements OnInit {
 
       })
     }
-
-
     // finally reset the form 
     categoriesForm.reset()
   } // end form submit function
@@ -98,18 +93,13 @@ export class CategoriesComponent implements OnInit {
     this.formStatus = "Update";
   }
 
-
-
   deleteCategory(id: string) {
     this.categorySer.deleteData(id).then(res => {
-      console.log(res)
       this.toastr.success("Deleted successfully.")
     })
   }
 
   // send the update request to the firestore could database
-
-
 }
 
 /* Activating the firestore database is working as coming
@@ -119,7 +109,7 @@ these configurations link the database we created with the service AngularFireSt
   */
 
 /*  Category Updating logic.
-once the update button is clicked call a method and pass the category name and id to it, create a global variable to assign the category name to it, using two-way binding
+once the update button in the table is clicked call a method and pass the category name and id to it, create a global variable to assign the category name to it, using two-way binding
 make the variable changes it's value depending on the value of the input and the same way back,
 create a global variable to determine the current status of the from, adding or updating, once the update button is clicked change the formStatus variable to later depend on it
 to determine what job should the submitting method would do, add or update.

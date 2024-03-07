@@ -1,0 +1,17 @@
+.actions-td {
+}
+.action-options-icon {
+    position: relative;
+    cursor: pointer;
+
+}
+.actions-menu {
+position: absolute;
+top: 20px;
+right: 0;
+background-color: white;
+padding: 10px;
+}
+.actions-label {
+    text-wrap: nowrap;
+}

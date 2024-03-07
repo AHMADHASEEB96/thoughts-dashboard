@@ -6,13 +6,12 @@
             </h3>
 
         </div>
-        <form class="box-shadow p-4" [formGroup]="postForm" (ngSubmit)="submitPostFrom()">
+        <form class="box-shadow p-4" [formGroup]="postForm" (ngSubmit)="submitPostForm()">
             <div class="row">
                 <div class="col-lg-7">
-
                     <!--  -->
                     <div class="form-group mb-2">
-                        <div class="form-label"> Title </div>
+                        <label class="form-label"> Title </label>
                         <input class="form-control" formControlName='postTitle' (input)="onTitleInput($event)"
                             [class.is-invalid]="formControls['postTitle'].invalid && formControls['postTitle'].touched">
                         <!-- post title validation division -->

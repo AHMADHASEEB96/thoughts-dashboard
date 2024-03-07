@@ -17,6 +17,7 @@ import { environment } from '../environments/environment';
 // import the angular firestore to deal with firestore database
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore'
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 // Dynamically generated imports
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -43,6 +44,8 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
 //Kolkov editor 
 import { HttpClientModule } from '@angular/common/http';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { NotFoundComponent } from './layouts/not-found/not-found.component';
+import { AuthComponent } from './auth/auth.component';
 //
 @NgModule({
   declarations: [
@@ -52,7 +55,9 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     DashboardComponent,
     CategoriesComponent,
     AllPostsComponent,
-    NewPostComponent
+    NewPostComponent,
+    NotFoundComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +80,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     providePerformance(() => getPerformance()),
     provideStorage(() => getStorage()),
     provideRemoteConfig(() => getRemoteConfig()),
+    AngularFireAuthModule,
 
     FormsModule,
     // toastr

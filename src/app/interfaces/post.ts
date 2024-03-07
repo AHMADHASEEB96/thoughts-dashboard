@@ -9,6 +9,7 @@ export interface post {
         category: string;
     },
     postImageURL: string,
+    postImagePath: string,
     postContent: string,
     isFeatured: boolean,
     status: string,

@@ -1,7 +1,7 @@
 footer {
-   /*  position: absolute;
-    bottom: 0px; */
- /*    width: 100vw; */ /* because absolute forces to take the min width */
+    /*  position: absolute;
+    bottom: 0px; 
+    width: 100vw;/*  because absolute forces to take the min width  */ 
     background-color: var(--primary-color);
     color: var(--secondary-text-color);
 }

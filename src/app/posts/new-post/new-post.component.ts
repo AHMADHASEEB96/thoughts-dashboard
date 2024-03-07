@@ -61,10 +61,10 @@ export class NewPostComponent {
     }) */
 
     // get the received post id  from the active route, get the observable query params from the active route
-    this.activateRoute.queryParams.subscribe(paramsObj => {
+    this.activateRoute.queryParams.subscribe(paramsObj => { //🟢
       this.currentPostId = paramsObj['id']
       this.postSrvs.getSinglePost(this.currentPostId).subscribe((post: any) => {
-        console.log(post) // if there is not id in the query parameters this post variable evaluates to undefined
+        console.log(post) // if there is no id in the query parameters this post variable evaluates to undefined
         // Set the img src and then by property binding the src changes automatically;
         if (post) { // !5
           this.postImageSrc = post.postImageURL;
@@ -116,46 +116,47 @@ export class NewPostComponent {
   get formControls() {
     return this.postForm.controls;
   }
-  onTitleInput(e: any) {
+  onTitleInput(e: Event) {
     // use regEx to replace the multiple spaces with -
-    this.dashedTitle = e.target.value.replace(/\s+/g, "-")// all spaces in between with only one dash
+    let target = e.target as HTMLInputElement
+    // let target = <HTMLInputElement>e.target //🟢
+
+    this.dashedTitle = target.value.replace(/\s+/g, "-")// replace all spaces in between with only one dash
     // this.dashedTitle = e.target.value.replaceAll(" ", "-")// replaces each one space with a dash, commented to not override
   }
   getPostImage(event: any) {
     // read the image
     const reader = new FileReader();
     reader.onload = e => {
-      this.postImageSrc = e.target?.result;
-      console.log(e.target?.result)
-      console.log(e.target)
-      console.log(event)
+      this.postImageSrc = e.target?.result; // to be viewed
     }
-
     // get the loaded file and read it as data url;
     reader.readAsDataURL(event.target.files[0])
     // store the file object inside a variable to later upload it to the storage
-    this.selectedImage = event.target.files[0];
+    this.selectedImage = event.target.files[0]; // to be uploaded 
     this.selectedImageName = event.target.files[0].name;
     console.log(typeof event.target.files[0], event.target.files[0].name)
   } // ! [1]
 
   // Get the value (category id ) and text from inside the selected option
   getOptionData(e: Event): void {
-    const target = e.target as HTMLSelectElement;
+    const target = e.target as HTMLSelectElement; //🟢
+
     this.selectedCategoryId = target.value;
     this.selectedCategoryName = target.options[target.selectedIndex].text
     console.log(e)
   } // !4'
 
   // once the form is submitted
-  submitPostFrom() {
+  submitPostForm() {
     // first upload the image to the storage following these steps
     // create a path in which the file will be stored inside the firebase storage 
     let filePath = `postImage/${this.selectedImageName}`; // if the image's name is not encoded in the right way  that will cause error
+
+
     // for that generate a random big number instead and make sure it is unique.
     //let randomNumber = new Date().getTime()
     // let filePath = `postImage/${randomNumber}`;
-
     // First Create a default image's path incase something went wrong with getting the uploaded Post's image
     let defaultPostImage = 'https://cdn.dribbble.com/users/595088/screenshots/15478669/media/d280f800b25aa1a0acf855b4d0524a22.jpg?resize=1000x750&vertical=center'
 
@@ -217,6 +218,7 @@ export class NewPostComponent {
         category: this.selectedCategoryName
       },
       postImageURL: defaultPostImage,
+      postImagePath: filePath,
       postContent: postValues.postContent,
       isFeatured: false,
       status: 'New',
@@ -246,13 +248,15 @@ export class NewPostComponent {
  ! [1]
 Explanation:
 
-const reader = new FileReader();: This line creates a new instance of the FileReader class. The FileReader object allows web applications to asynchronously read the contents of files (or raw data buffers) stored on the user's computer.
-
-reader.onload = (e: any) => { ... }: This line sets up an event handler for the onload event of the FileReader. The onload event is triggered when the reading operation is successfully completed. The event handler, in this case, is an arrow function that takes an event parameter (e).
-
-this.postImageSrc = e.target?.result;: Inside the event handler, the result property of the FileReader contains the data that was read. In this specific case, it's likely reading a file as a data URL (using readAsDataURL), and the result will be a base64-encoded representation of the file's contents. This data URL is then assigned to the postImageSrc property of the class or component.
-
-reader.readAsDataURL(e.target.files[0]);: This line initiates the reading of the contents of the file. It uses the readAsDataURL method, which reads the file as a data URL. The file to be read is specified using e.target.files[0], assuming that e is an event object related to a file input change.
+const reader = new FileReader();: This line creates a new instance of the FileReader class. The FileReader object allows web applications to asynchronously
+read the contents of files (or raw data buffers) stored on the user's computer.
+reader.onload = (e: any) => { ... }: This line sets up an event handler for the onload event of the FileReader. The onload event is triggered when the reading
+operation is successfully completed. The event handler, in this case, is an arrow function that takes an event parameter (e).
+this.postImageSrc = e.target?.result;: Inside the event handler, the result property of the FileReader contains the data that was read.
+In this specific case, it's likely reading a file as a data URL (using readAsDataURL), and the result will be a base64-encoded representation of the file's contents.
+This data URL is then assigned to the postImageSrc property of the class or component.
+reader.readAsDataURL(e.target.files[0]);: This line initiates the reading of the contents of the file. It uses the readAsDataURL method, which reads the file as a data URL.
+The file to be read is specified using e.target.files[0], assuming that e is an event object related to a file input change.
 
 So, overall, this method is used to handle the selection of a file using a file input, read its contents as a data URL, and assign that data URL to a property (postImageSrc) for further use, perhaps to display an image preview.
 * important to know,

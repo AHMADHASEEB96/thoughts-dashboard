@@ -1,4 +1,11 @@
 <header class="navbar navbar-expand-lg   bg-white">
-    <div class='container justify-content-center'><a routerLink="" class='site-logo'> Thoughts </a></div>
+    <nav class='container justify-content-between'>
+        <a routerLink="" class='site-logo'> Thoughts </a>
+        <ul class="header-items d-flex gap-2">
+            <li class="header-item" routerLink="login" *ngIf="isUserLoggedIn"> {{userData.email}} </li>
+            <li class="header-item clickable" routerLink="login" (click)="isUserLoggedIn = false"> {{isUserLoggedIn ?
+                'logout' : 'login'}} </li>
+        </ul>
+    </nav>
     <!-- container class displays flex automatically  -->
 </header>

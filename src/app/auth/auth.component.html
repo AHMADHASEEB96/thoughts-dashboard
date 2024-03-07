@@ -1,0 +1,60 @@
+<section class="login-section">
+    <div class="container">
+        <h4 class="text-center"> <span [class.text-primary]="formStatus == 'login'"> Login </span> and <span
+                [class.text-primary]="formStatus == 'signup'"> signup</span> </h4>
+        <div class="row">
+            <form action="" class="col-lg-6 m-auto" #authForm="ngForm" ngForm
+                (ngSubmit)="submitAuthForm($event, authForm)">
+                <div class="form-group">
+                    <label for="email" class="form-label"> E-Mail </label>
+                    <input type="email" name="email" ngModel id="email" class="form-control" #email="ngModel"
+                        required="">
+                    <div class="alert alert-danger my-2" *ngIf="email.invalid && email.touched">
+                        This Field is required
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <div class="label-wrapper pass-label-wrapper">
+                        <label for="password" class="form-label"> Password </label>
+                        <i class="fa-regular fa-eye show-pass-eye clickable" (click)="togglePassVisibility($event)"></i>
+                    </div>
+                    <input [type]="isPassVisible ? 'text' : 'password'" name="password" ngModel id="password"
+                        class="form-control pass-input" #password="ngModel" required="">
+
+                    <div class="alert alert-danger my-2" *ngIf="password.invalid && password.touched">
+                        This Field is required
+                    </div>
+                </div>
+                <div class="form-group mt-3" *ngIf="formStatus =='signup'">
+                    <label for=" confirm-password" class="form-label"> Confirm password </label>
+                    <input [type]="isPassVisible ? 'text' : 'password'" name="confirmPassControl" ngModel
+                        id="confirm-password" class="form-control" #confirmPass="ngModel">
+                    <div class="alert alert-danger my-2" *ngIf="confirmPass.invalid && confirmPass.touched">
+                        This Field is required
+                    </div>
+                </div>
+                <hr>
+                <button type="submit" class="btn btn-primary" [disabled]="authForm.invalid">
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
+                        *ngIf="isAuthLoading"></span>
+                    {{formStatus == 'login' ?
+                    'login' : 'signup'}} </button>
+                <br>
+                <small *ngIf="formStatus =='login'"> Don't have an account? then <span class="text-primary clickable"
+                        (click)="formStatus ='signup'">
+                        signup
+                    </span> </small>
+                <small *ngIf="formStatus =='signup'"> Already have an account? <span class="text-primary clickable"
+                        (click)="formStatus='login'">
+                        login
+                    </span> </small>
+                <div class="alert alert-danger mt-3" *ngIf="isWrongCredentials || isSignUpFailed">
+                    <p *ngIf="isWrongCredentials"> Something went wrong, Please make sure you are using correct
+                        credentials </p>
+                    <p *ngIf="isSignUpFailed">{{signUpErrorMessage}} </p>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>

@@ -52,4 +52,12 @@ export class PostsService {
   updatePost(id: string, post: any) {
     return this.afs.doc(`posts/${id}`).update(post)
   }
+
+  deletePostImage(imagePath: string) {
+    // return this.storage.storage.refFromURL(imageUrlHere).delete() // accepts image's url 
+    return this.storage.storage.ref(imagePath).delete() // accepts image path
+  }
+  deletePost(postId: any) {
+    return this.afs.doc('posts/' + postId).delete()
+  }
 }

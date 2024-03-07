@@ -1,4 +1,4 @@
-<section class="all-posts-header">
+<section class="all-posts-header" (click)="hideActionsMenu($event)">
     <div class="container">
         <div class="posts-header text-center">
             <h3> All Posts </h3>
@@ -11,7 +11,7 @@
     </div>
 </section>
 
-<section class="all-posts-table">
+<section class="all-posts-table" (click)="hideActionsMenu($event)">
     <div class="container">
         <table class="table ">
             <thead class="table-dark">
@@ -22,12 +22,11 @@
                     <th> Category </th>
                     <th> Excerpts </th>
                     <th> Date </th>
-
                     <th> Action </th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let post of posts; let i = index">
+                <tr *ngFor="let post of posts; let i = index" [class.table-primary]="post.postData.isFeatured">
                     <td> {{i + 1 }}</td>
                     <td> <img src="{{post.postData.postImageURL}}" alt="Post Image" class="img img-fluid rounded">
                     </td>
@@ -36,15 +35,28 @@
                     <td> {{post.postData.postExcerpt}} </td>
                     <td> {{post.postData.createdAt.toMillis() | date}} </td> <!-- !1 -->
 
-                    <td>
-                        <div class="d-flex gap-2">
+                    <td class="actions-td">
+                        <i class="fa-solid fa-ellipsis-vertical action-options-icon"
+                            (click)="toggleActionsMenu($event)">
+                            <div class="d-flex flex-column gap-2 actions-menu box-shadow "
+                                [class.d-none]="!isActionMenuVisible">
 
-                            <button class="post-action-button btn btn-warning" routerLink="/posts/new"
-                                [queryParams]="{id: post.postId}">
-                                Edit </button>
-                            <button class="post-action-button btn btn-danger">
-                                Delete </button>
-                        </div>
+                                <button class="post-action-button btn btn-warning" routerLink="/posts/new"
+                                    [queryParams]="{id: post.postId}">
+                                    Edit </button>
+                                <button class="post-action-button btn btn-danger"
+                                    (click)="deletePost(post.postId, post.postData.postImagePath)">
+                                    Delete </button>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <label for="" class="actions-label"> Is featured </label>
+                                    <input type="checkbox" class="" name="" id="" [(ngModel)]="post.postData.isFeatured"
+                                        (change)="updateFeatured(post.postId, post.postData)">
+
+                                </div>
+
+                            </div>
+                        </i>
+
                         <!-- !2 -->
                     </td>
                 </tr>
@@ -55,7 +67,7 @@
 
 
 <!-- !1
-used the pope date after converting the timestamp to milliseconds using a js method, this is in case we send the date like this new Date() on creating the post object
+used the pipe date after converting the timestamp to milliseconds using a js method, this is incase we send the date like this new Date() on creating the post object
 but if we are sending the date formatted not like a timestamp then there is no need to use the pipe
 -->
 
