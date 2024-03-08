@@ -3,16 +3,17 @@
         <h4 class="text-center"> <span [class.text-primary]="formStatus == 'login'"> Login </span> and <span
                 [class.text-primary]="formStatus == 'signup'"> signup</span> </h4>
         <div class="row">
-            <form action="" class="col-lg-6 m-auto" #authForm="ngForm" ngForm
-                (ngSubmit)="submitAuthForm($event, authForm)">
+            <form action="" class="col-lg-6 m-auto" #authForm="ngForm" (ngSubmit)="submitAuthForm($event, authForm)">
+                <!-- Email Group -->
                 <div class="form-group">
                     <label for="email" class="form-label"> E-Mail </label>
                     <input type="email" name="email" ngModel id="email" class="form-control" #email="ngModel"
                         required="">
-                    <div class="alert alert-danger my-2" *ngIf="email.invalid && email.touched">
-                        This Field is required
+                    <div class="alert alert-danger my-2" *ngIf="!seeIfMailValid(authForm.value) && email.touched">
+                        This Field is not valid
                     </div>
                 </div>
+                <!-- Pass Group -->
                 <div class="form-group mt-3">
                     <div class="label-wrapper pass-label-wrapper">
                         <label for="password" class="form-label"> Password </label>
@@ -25,33 +26,48 @@
                         This Field is required
                     </div>
                 </div>
+                <!-- Confirm Pass Group -->
                 <div class="form-group mt-3" *ngIf="formStatus =='signup'">
                     <label for=" confirm-password" class="form-label"> Confirm password </label>
-                    <input [type]="isPassVisible ? 'text' : 'password'" name="confirmPassControl" ngModel
-                        id="confirm-password" class="form-control" #confirmPass="ngModel">
+                    <input [type]="isPassVisible ? 'text' : 'password'" name="confirmPassword" ngModel
+                        id="confirm-password" class="form-control" #confirmPass="ngModel" required="">
                     <div class="alert alert-danger my-2" *ngIf="confirmPass.invalid && confirmPass.touched">
                         This Field is required
+
+                    </div>
+                    <div class="alert alert-danger my-2"
+                        *ngIf="!seeIfPasswordsValid(authForm.value) && confirmPass.touched">
+                        Passwords don't match, or less than 6 characters
                     </div>
                 </div>
                 <hr>
-                <button type="submit" class="btn btn-primary" [disabled]="authForm.invalid">
-                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
+                <button type="submit" class="btn btn-primary" *ngIf="formStatus == 'login'"
+                    [disabled]="authForm.invalid || !seeIfMailValid(authForm.value)">
+                    <span class="spinner-grow spinner-grow-sm me-2" role="status" aria-hidden="true"
                         *ngIf="isAuthLoading"></span>
-                    {{formStatus == 'login' ?
-                    'login' : 'signup'}} </button>
+                    login
+                </button>
+                <button type="submit" class="btn btn-primary" *ngIf="formStatus == 'signup'"
+                    [disabled]="authForm.invalid || !isFormValid(authForm)">
+                    <span class="spinner-grow spinner-grow-sm me-2" role="status" aria-hidden="true"
+                        *ngIf="isAuthLoading"></span>
+                    signup
+                </button>
                 <br>
                 <small *ngIf="formStatus =='login'"> Don't have an account? then <span class="text-primary clickable"
-                        (click)="formStatus ='signup'">
+                        (click)="formStatus ='signup'; authForm.reset()">
                         signup
                     </span> </small>
                 <small *ngIf="formStatus =='signup'"> Already have an account? <span class="text-primary clickable"
-                        (click)="formStatus='login'">
+                        (click)="formStatus='login'; authForm.reset()">
                         login
                     </span> </small>
                 <div class="alert alert-danger mt-3" *ngIf="isWrongCredentials || isSignUpFailed">
                     <p *ngIf="isWrongCredentials"> Something went wrong, Please make sure you are using correct
                         credentials </p>
-                    <p *ngIf="isSignUpFailed">{{signUpErrorMessage}} </p>
+                    <div *ngIf="isSignUpFailed">
+                        <p *ngFor="let signUpError of signUpErrorMessages"> {{signUpError}}</p>
+                    </div>
                 </div>
             </form>
 

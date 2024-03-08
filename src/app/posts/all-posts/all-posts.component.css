@@ -5,12 +5,16 @@
     cursor: pointer;
 
 }
-.actions-menu {
-position: absolute;
-top: 20px;
-right: 0;
-background-color: white;
-padding: 10px;
+.actions-menu { position: absolute; top: 20px; right: 0; background-color: white; padding: 10px; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px; -o-border-radius: 5px;
+}
+.post-action-button {
+    padding: 5px ;
+    border-bottom: 1px solid #eee;
+    text-transform: lowercase !important;
+    cursor: pointer;
+}
+.post-action-button:hover {
+    background-color: aliceblue;
 }
 .actions-label {
     text-wrap: nowrap;

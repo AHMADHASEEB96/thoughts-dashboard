@@ -75,13 +75,13 @@ td {
 }
 .site-logo {
     padding: 5px 20px;
-    border-radius: 10px ;
+    border-radius: 2px ;
     background-color: var(--primary-color);
     color: var(--secondary-text-color);
-    -webkit-border-radius: 10px ;
-    -moz-border-radius: 10px ;
-    -ms-border-radius: 10px ;
-    -o-border-radius: 10px ;
+    -webkit-border-radius: 2px ;
+    -moz-border-radius: 2px ;
+    -ms-border-radius: 2px ;
+    -o-border-radius: 2px ;
     font-size: 1.5em;
 }
 

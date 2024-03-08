@@ -41,15 +41,16 @@
                             <div class="d-flex flex-column gap-2 actions-menu box-shadow "
                                 [class.d-none]="!isActionMenuVisible">
 
-                                <button class="post-action-button btn btn-warning" routerLink="/posts/new"
+                                <div class="post-action-button " routerLink="/posts/new"
                                     [queryParams]="{id: post.postId}">
-                                    Edit </button>
-                                <button class="post-action-button btn btn-danger"
+                                    Edit </div>
+                                <div class="post-action-button "
                                     (click)="deletePost(post.postId, post.postData.postImagePath)">
-                                    Delete </button>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <label for="" class="actions-label"> Is featured </label>
-                                    <input type="checkbox" class="" name="" id="" [(ngModel)]="post.postData.isFeatured"
+                                    Delete </div>
+                                <div class="d-flex gap-2 align-items-center post-action-button">
+                                    <label for="toggle-featured" class="actions-label"> Is featured </label>
+                                    <input type="checkbox" class="" name="" id="toggle-featured"
+                                        [(ngModel)]="post.postData.isFeatured"
                                         (change)="updateFeatured(post.postId, post.postData)">
 
                                 </div>
